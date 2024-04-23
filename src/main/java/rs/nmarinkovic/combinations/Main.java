@@ -4,15 +4,15 @@ import java.util.Scanner;
 
 public class Main
 {
-    static void printPrikaz(MyPair[] niz) {
+    static void printIndex(MyPair[] niz) {
         for(int i = 0; i < niz.length; i++) {
-            System.out.print(niz[i].getIndeks() + " ");
+            System.out.print(niz[i].getIndex() + " ");
         }
         System.out.println();
     }
-    static void printVrednost(MyPair[] niz) {
+    static void printValue(MyPair[] niz) {
         for(int i = 0; i < niz.length; i++) {
-            System.out.print(niz[i].getVrednost() + " ");
+            System.out.print(niz[i].getValue() + " ");
         }
         System.out.println();
     }
@@ -26,13 +26,12 @@ public class Main
         return newArr;
     }
     static Boolean arePairsEqual(MyPair[] array1, MyPair[] array2) {
-        Boolean sexBool = true;
         for(int i = 0; i < array1.length; i++) {
-            if(array1[i].getIndeks() != array2[i].getIndeks())  {
-                sexBool = false;
+            if(array1[i].getIndex() != array2[i].getIndex())  {
+                return false;
             }
         }
-        return sexBool;
+        return true;
     }
     static void allCombinations(int n) {
         System.out.println("Insert names of all elements: ");
@@ -52,49 +51,54 @@ public class Main
             }
 
             System.out.println("List of all combinations:");
-            printVrednost(jednakomb);
-            //printVrednost(jednakomb);
+            printValue(jednakomb);
 
             MyPair[] prvobitnareordered = reorderPairArray(jednakomb);
 
-            do
+            while(!arePairsEqual(jednakomb, prvobitnareordered))
+            //while (!Arrays.equals(jednakomb, prvobitnareordered))
             {
                 // ide unazad po kombinaciji
                 for (int j = n - 2; j >= 0; j--)
                 {
                     // poredi onu na kojom smo sa prethodnom, i ako je prethodna veca onda radi stvari
-                    if (jednakomb[j].getIndeks() < jednakomb[j + 1].getIndeks())
+                    if (jednakomb[j].getIndex() < jednakomb[j + 1].getIndex())
                     {
 
                         int najmanjieliza = n + 1;
                         int indexnajmanjeg = j;
+                        Boolean postojiManji = false;
 
                         // pronadje sledeci element sa kojime ce da se zameni
                         // (on je prvi najmanji ali nije manji od njega, bitan detalj, u suprotnom ce se vrteti iste vrednosti)
                         for (int k = j + 1; k < n; k++)
                         {
-                            if (jednakomb[k].getIndeks() > jednakomb[j].getIndeks())
+                            if (jednakomb[k].getIndex() > jednakomb[j].getIndex())
                             {
-                                if (najmanjieliza > jednakomb[k].getIndeks())
+                                if (najmanjieliza > jednakomb[k].getIndex())
                                 {
-                                    najmanjieliza = jednakomb[k].getIndeks();
+                                    najmanjieliza = jednakomb[k].getIndex();
                                     indexnajmanjeg = k;
+                                    postojiManji = true;
                                 }
                             }
                         }
 
                         // razmena vrednosti na ta 2 indeksa
-
-                        MyPair temp = new MyPair(jednakomb[j]);
-                        jednakomb[j] = jednakomb[indexnajmanjeg];
-                        jednakomb[indexnajmanjeg] = temp;
-
+                        if(postojiManji==true) {
+                            MyPair temp = new MyPair(jednakomb[j]);
+                            jednakomb[j] = jednakomb[indexnajmanjeg];
+                            jednakomb[indexnajmanjeg] = temp;
+                        }
 
                         // niz svih elemenata nakon onog na kom smo stali
                         // trebace nam da ga okrenemo
-                        MyPair[] niz_iza = new MyPair[n - j - 1];
 
-                        for (int k = 0; k < n - j - 1; k++)
+                        int arrAfterLength = n - j - 1;
+
+                        MyPair[] niz_iza = new MyPair[arrAfterLength];
+
+                        for (int k = 0; k < arrAfterLength; k++)
                         {
                             niz_iza[k] = new MyPair(jednakomb[k + j + 1]);
                         }
@@ -107,18 +111,15 @@ public class Main
 
 
                         // stavljamo okrenut niz
-                        for (int lj = 0; lj < n - j - 1; lj++)
+                        for (int lj = 0; lj < arrAfterLength; lj++)
                         {
                             jednakomb[lj + j + 1] = niz_iza_reordered[lj];
                         }
-                        printVrednost(jednakomb);
+                        printValue(jednakomb);
                         break;
                     }
                 }
             }
-            //while (!Arrays.equals(jednakomb, prvobitnareordered));
-            while(!arePairsEqual(jednakomb, prvobitnareordered));
-
         }
     }
     public static void main(String[] args)

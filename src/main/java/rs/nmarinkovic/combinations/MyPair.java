@@ -2,29 +2,29 @@ package rs.nmarinkovic.combinations;
 
 public class MyPair
 {
-    private int indeks;
-    private String vrednost;
+    private int index;
+    private String value;
 
-    public MyPair(int indeks, String vrednost) {
-        this.indeks = indeks;
-        this.vrednost = vrednost;
+    public MyPair(int index, String value) {
+        this.index = index;
+        this.value = value;
     }
 
     public MyPair() {
-        this.indeks = -1;
-        this.vrednost = "trashvalue";
+        this.index = -1;
+        this.value = "trashvalue";
     }
 
     public MyPair(MyPair p) {
-        this.indeks = p.indeks;
-        this.vrednost = p.vrednost;
+        this.index = p.index;
+        this.value = p.value;
     }
 
-    public int getIndeks() {
-        return indeks;
+    public int getIndex() {
+        return index;
     }
 
-    public String getVrednost() {
-        return vrednost;
+    public String getValue() {
+        return value;
     }
 }
